@@ -9,7 +9,7 @@ public class weapon : MonoBehaviour
     Camera FPSCamera;
     public GameObject throwablePrefab;
     private GameObject sphere = null;
-    public float throwForce = 10f;
+    public float throwForce = 50f;
     public float maxThrowForce = 4f;
 
     private float holdDownTimer;
@@ -31,12 +31,25 @@ public class weapon : MonoBehaviour
         if (Input.GetButtonUp("Fire1"))
         {
             float totalTime = Time.time - holdDownTimer;
-            Throw();
+            Throw(CalculateHoldDownForce(totalTime * 2f));
         }
     }
 
-    private void Throw()
+    private void Throw(float throwForce)
     {
-        
+        if (sphere != null)
+        {
+            Destroy(sphere);
+        }
+
+        sphere = Instantiate(throwablePrefab, transform.position, Quaternion.identity);
+        sphere.GetComponent<Rigidbody>().AddForce(FPSCamera.transform.forward * throwForce, ForceMode.Impulse);
+    }
+
+    private float CalculateHoldDownForce(float holdTime)
+    {
+        float holdTimeNormalized = Mathf.Clamp01(holdTime / maxThrowForce);
+        float force = holdTimeNormalized * throwForce;
+        return force;
     }
 }
