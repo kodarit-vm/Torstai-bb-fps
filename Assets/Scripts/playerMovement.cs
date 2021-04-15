@@ -21,7 +21,6 @@ public class playerMovement : MonoBehaviour
     public LayerMask groundMask;
 
     private bool isGrounded;
-
     // Start is called before the first frame update
     void Start()
     {
