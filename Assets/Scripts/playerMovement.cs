@@ -13,7 +13,7 @@ public class playerMovement : MonoBehaviour
     private float jumpHeight = 3f;
 
     public Transform groundCheck;
-    public float groundDistance = 0.00002f;
+    private float groundDistance = 0.4f;
 
     private Vector3 move;
     private Vector3 velocity;
@@ -55,11 +55,6 @@ public class playerMovement : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
 
-        
-    }
-
-    private void FixedUpdate()
-    {
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
